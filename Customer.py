@@ -19,7 +19,7 @@ class Customer(Person.Person):
     def create_account(self, acc_obj):
         
         self.account.append(acc_obj.account_no)
-        print(f"\n\nAccount Created for {self.name}\n** Details as follows **\nAccount number: {acc_obj.account_no}\nType of account: {acc_obj.acc_type} \nMailing address: {self.address}\n Initial Deposit: {acc_obj.total_amt}")
+        print(f"\n\nAccount Created forasdasda {self.name}\n** Details as follows **\nAccount number: {acc_obj.account_no}\nType of account: {acc_obj.acc_type} \nMailing address: {self.address}\n Initial Deposit: {acc_obj.total_amt}")
        
             
             
