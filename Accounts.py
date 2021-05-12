@@ -35,3 +35,11 @@ class Accounts:
     def displayBalance(self, accNo):
 
         print("f\tThe balance for {accno} is : {self.total_amt} ")
+
+    def as_dict(self):
+        
+        if (len(self.account) == 0):
+            acc = ""
+        else:
+            acc = "^".join(self.account)
+        return {"Name" : self.name, "Address" : self.address,"Customer id" : self.customer_id,"Account Number(s)" : acc}
