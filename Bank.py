@@ -23,10 +23,7 @@ class Bank:
         self.customer_file = customer_file
         self.account_file = account_file
         #_______________________
-        #self.list_employees = list_employees 
-        #self.list_customers = list_customers
-        #self.list_accounts = list_accounts
-        
+       
      
     def read_data(self):
         
@@ -62,7 +59,6 @@ class Bank:
         df = pd.read_csv(self.account_file)
         
         for index, row in df.iterrows():
-            print(row)
             acc = Accounts(index, row["Customer id"],row["Account Number"], row["Type"], row["Total Amount"])
             self.list_accounts.append(acc)
         
@@ -74,6 +70,12 @@ class Bank:
             return self.list_customers[self.list_customers.index(customer_id)]
         return None
 
+    def find_account(self,account_no):
+        if account_no in self.list_accounts:
+            return self.list_accounts[self.list_accounts.index(account_no)]
+        return None
+
+
     def create_customer(self, name, address):
 
         cusid = self.get_unique(2)
@@ -84,7 +86,7 @@ class Bank:
 
     def create_account(self, acc_type, deposit, found_customers):
 
-        acc_id = self.get_unique(1)
+        acc_id = str(self.get_unique(1))
         acc_obj = Accounts(len(self.list_accounts), found_customers.customer_id, acc_id, acc_type, deposit)
         self.list_accounts.append(acc_obj)
         
@@ -92,9 +94,9 @@ class Bank:
 
     def get_unique(self,option):
         if (option == 1):
-            acc_no = random.randint(10**self.ACC_SIZE, (10**self.ACC_SIZE+1)-1)
+            acc_no = random.randint(10**self.ACC_SIZE, (10**(self.ACC_SIZE+1))-1)
             while acc_no in self.list_accounts:
-                acc_no = random.randint(10**self.ACC_SIZE, (10**self.ACC_SIZE+1)-1)
+                acc_no = random.randint(10**self.ACC_SIZE, ((10**self.ACC_SIZE+1))-1)
             return acc_no
         if (option == 2):
             cusid = random.randint(100000, 900000)
@@ -130,88 +132,100 @@ def customerPortal(bank,found_customer):
         print("\t5. CLOSE AN ACCOUNT")
         print("\t6. MODIFY AN ACCOUNT")
         print("\t7. EXIT")
-        print("\tSelect Your Option (1-7) ")
-
-        choice = input("Enter your choice : ")
-
+        choice = input("\tSelect Your Option (1-7) ")
+        
 
         if choice == '1':
             #interaction for creating an account        
             
-            acc_type = input("Ente the type of account [Current/Saving] : ")
-            deposit = int(input("Enter the initial amount ($) (>=500 for Saving and >=1000 for current"))
+            acc_type = input("Enter the type of account [Current/Saving] : ")
+            deposit = int(input("Enter the initial amount ($) []>=500 for Saving and >=1000 for current] : "))
             acc_obj = bank.create_account(acc_type, deposit, found_customer)
             found_customer.create_account(acc_obj)
 
         elif choice =='2':
-            num = int(input("\tEnter the account No. : "))
-            currency = int(input("\tEnter the amount you want to deposit ($) : "))
-            depositAndWithdraw(num, currency, 1)
+         
+            acc_no = found_customer.get_account_id()
+            found_account = bank.find_account(acc_no)
+            currency = int(input("\t\nEnter the amount you want to deposit ($) : "))
+            found_account.depositAndWithdraw(currency, 1)
+            print("Transaction successful!\n\n")
 
         elif choice == '3':
-            num = int(input("\tEnter the account No. : "))
-            currency = int(input("\tEnter the amount you want to withdraw ($) : "))
-            depositAndWithdraw(num, currency, 2)
+
+            acc_no = found_customer.get_account_id()
+            found_account = bank.find_account(acc_no)
+            currency = int(input("\t\nEnter the amount you want to withdraw ($) : "))
+            found_account.depositAndWithdraw(currency, 2)
+            print("Transaction successful!\n\n")
 
         elif choice == '4':
-            num = int(input("\tEnter The account No. : "))
-            #displaySp(num)
+        #displays specific account number's balance
+            acc_no = found_customer.get_account_id()
+            found_account = bank.find_account(acc_no)
+            found_account.displayBalance()
 
         elif choice == '5':
-            num =int(input("\tEnter The account No. : "))
-            #deleteAccount(num)
+        #deletes account    
+            acc_no = found_customer.get_account_id()
+            found_account = bank.find_account(acc_no)
+            bank.list_accounts.remove(found_account)
+            found_customer.deleteAccount(acc_no)
+            
 
         elif choice == '6':
-            num = int(input("\tEnter The account No. : "))
-            #modifyAccount(num)
+        #modifies customer's info
+            found_customer.modifyCustomerInfo()
 
         elif choice == '7':
             print("\tThank you for using bank managemnt system. Have a nice day!")
             break
 
         else:
-            print("Invalid choice")
+            print("Invalid choice\n")
+        input("Press enter to continue")
 
 def employeePortal(bank):
 
 
     choice = ''
     num = 0
-    while choice != 5:
+    while choice != 4:
 
         print("\tCHOOSE ONE TO PROCEDE")
-        print("\t1. NEW ACCOUNT")
-        print("\t2. ALL ACCOUNT HOLDERS LIST AND THEIR INFORMATION")
-        print("\t3. CLOSE AN ACCOUNT")
-        print("\t4. MODIFY AN ACCOUNT")
-        print("\t5. EXIT")
-        print("\tSelect Your Option (1-5) ")
-
-        ch = input("Enter your choice : ")
+        print("\t1. CUSTOMERS NAME AND THEIR INFORMATION")
+        print("\t2. ACCOUNTS LIST AND THEIR INFORMATION")
+        print("\t3. TOTAL CLOSING DAY BANK BALANCE ")
+        print("\t4. EXIT")
+        
+        ch = input("\t\nSelect Your Option (1-4): ")
 
 
-        if choice == '1':
-            #interaction for creating an account        
-            Type = input("Ente the type of account you want [Current/Saving] : ")
-            deposit = int(input("Enter the initial amount ($) [>=500 for Saving and >=1000 for current] :"))
-            create_account(Type, deposit)
+        if ch == '1':
+        #
+            for row in bank.list_customers:
+                row.show_customer_info()
+            
 
-        elif choice =='2':
-            print(f"***The details of Account holders***\n{show_accounts_info()}")
+        elif ch =='2':
 
-        elif choice == '3':
-            num =int(input("\tEnter The account No. : "))
-            customer.deleteAccount(num)
+            for row in bank.list_accounts:
+                row.show_account_info()
 
-        elif choice == '4':
-            num = int(input("\tEnter The account No. : "))
-            customer.modifyAccount(num)
+        elif ch == '3':
+            total_amount = 0
+            for row in bank.list_accounts:
+                total_amount = total_amount + row.total_amt
+            print (f"TOTAL CLOSING DAY BANK BALANCE: {total_amount}")
 
-        elif choice == '5':
+
+        elif ch == '4':
             print("\tThank you for using the banking system. Have a nice day!")
             break
         else:
             print("Invalid choice")
+        input("Press enter to continue")
+            
 
     
 
@@ -223,6 +237,8 @@ if __name__ == "__main__":
     bank = Bank("C:\\Users\\shrut\\OneDrive\\Desktop\\Banking\\employee_data.csv","C:\\Users\\shrut\\OneDrive\\Desktop\\Banking\\customer_data.csv" , "C:\\Users\\shrut\\OneDrive\\Desktop\\Banking\\account_data.csv" )
     bank.read_data()
     cusid = 0 
+
+
     #the first interaction to know if the user is employee or customer
     ch =''
     choice = ''
@@ -235,14 +251,15 @@ if __name__ == "__main__":
         print("\t1. CUSTOMER PORTAL")
         print("\t2. EMPLOYEE PORTAL")
         print("\t3. EXIT")
-        print("\tSelect Your Option ")
-        ch = input("Enter your choice : ")
+        
+        ch = input("\tSelect Your Option (1-3) : ")
+
 
 
         if ch == '1':
         #customer portal
             print("\t1. ARE YOU AN EXISTING CUSTOMER? (Y/N) ")
-            choice = input("Enter your choice : ")
+            choice = input("Select Your Option : ")
             if (choice == 'Y' or choice == 'y'):
                 cusid = int(input("\t Enter your customer id: "))
                 found_customer = bank.find_customer(cusid)

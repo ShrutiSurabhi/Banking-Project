@@ -17,12 +17,13 @@ class Accounts:
         self.total_amt = total_amt
         
     def __eq__(self, other):
+
         if isinstance(other,Accounts):
             return self.account_no == other.account_no
         else:
             return self.account_no == other
 
-    def depositAndWithdraw(self, accNo, currency, option):
+    def depositAndWithdraw(self, currency, option):
 
         if option == 1:
             self.total_amt = self.total_amt + currency
@@ -31,15 +32,15 @@ class Accounts:
 
             if (self.total_amt >= currency):
                 self.total_amt = self.total_amt - currency
+            else:
+                print("Insufficient balance :(")
 
     def displayBalance(self, accNo):
+        print("f\tThe balance for {self.account_no} is : {self.total_amt} \n")
 
-        print("f\tThe balance for {accno} is : {self.total_amt} ")
+    def show_account_info(self):
+        print(f"Account Number : {self.account_no}\n Type : {self.acc_type}\n Total Amount : {self.total_amt}\n\n")
 
     def as_dict(self):
-        
-        if (len(self.account) == 0):
-            acc = ""
-        else:
-            acc = "^".join(self.account)
-        return {"Name" : self.name, "Address" : self.address,"Customer id" : self.customer_id,"Account Number(s)" : acc}
+        return {"Customer id" : self.customer_id,"Account Number" : self.account_no, "Type" : self.acc_type, "Total Amount" : self.total_amt}
+      
