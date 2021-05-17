@@ -35,11 +35,11 @@ class Accounts:
             else:
                 print("Insufficient balance :(")
 
-    def displayBalance(self, accNo):
-        print("f\tThe balance for {self.account_no} is : {self.total_amt} \n")
+    def displayBalance(self):
+        print(f"\tThe balance for {self.account_no} is : ${self.total_amt} \n")
 
     def show_account_info(self):
-        print(f"Account Number : {self.account_no}\n Type : {self.acc_type}\n Total Amount : {self.total_amt}\n\n")
+        print(f"Account Number : {self.account_no}\n Type : {self.acc_type}\n Total Amount : ${self.total_amt}\n\n")
 
     def as_dict(self):
         return {"Customer id" : self.customer_id,"Account Number" : self.account_no, "Type" : self.acc_type, "Total Amount" : self.total_amt}

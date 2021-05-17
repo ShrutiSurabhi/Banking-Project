@@ -2,7 +2,6 @@ import pandas as pd
 import os
 import random
 import csv
-from Employee import Employee
 from Person import Person
 from Customer import Customer
 from Accounts import Accounts
@@ -16,29 +15,15 @@ class Bank:
     list_employees = []
     list_customers = []
     list_accounts = []
-    ACC_SIZE=2
+    ACC_SIZE=10
     
-    def __init__(self, employee_file , customer_file, account_file):
-        self.employee_file = employee_file
+    def __init__(self, customer_file, account_file):
+        
         self.customer_file = customer_file
         self.account_file = account_file
-        #_______________________
        
      
     def read_data(self):
-        
-        
-        if not os.path.exists(self.employee_file):
-            with open(self.employee_file,'w') as file:
-                dw = csv.DictWriter(file, delimiter = ',',fieldnames= ["Name", "Address"])
-                dw.writeheader()
-        df = pd.read_csv(self.employee_file)
-        
-        for index, row in df.iterrows():
-            emp = Employee(index, row["Name"],row["Address"])
-            self.list_employees.append(emp)
-            
-        #-----------------------------------------------------------
         
         if not os.path.exists(self.customer_file):
             with open(self.customer_file,'w') as file:
@@ -104,8 +89,9 @@ class Bank:
                 cusid = random.randint(100000, 900000)
             return cusid
 
+
     def close_bank(self):
-    #to close csv file
+    #to close csv files and so saving all the content in dataframe to csv files
         df = pd.DataFrame([x.as_dict() for x in self.list_customers])
         df.to_csv(self.customer_file)
 
@@ -133,7 +119,7 @@ def customerPortal(bank,found_customer):
         print("\t6. MODIFY AN ACCOUNT")
         print("\t7. EXIT")
         choice = input("\tSelect Your Option (1-7) ")
-        
+        print("\n")
 
         if choice == '1':
             #interaction for creating an account        
@@ -178,7 +164,7 @@ def customerPortal(bank,found_customer):
             found_customer.modifyCustomerInfo()
 
         elif choice == '7':
-            print("\tThank you for using bank managemnt system. Have a nice day!")
+            print("\tThank you for using bank managemnt system. Have a nice day!\n\n")
             break
 
         else:
@@ -186,7 +172,6 @@ def customerPortal(bank,found_customer):
         input("Press enter to continue")
 
 def employeePortal(bank):
-
 
     choice = ''
     num = 0
@@ -199,7 +184,7 @@ def employeePortal(bank):
         print("\t4. EXIT")
         
         ch = input("\t\nSelect Your Option (1-4): ")
-
+        print("\n")
 
         if ch == '1':
         #
@@ -216,7 +201,7 @@ def employeePortal(bank):
             total_amount = 0
             for row in bank.list_accounts:
                 total_amount = total_amount + row.total_amt
-            print (f"TOTAL CLOSING DAY BANK BALANCE: {total_amount}")
+            print (f"TOTAL CLOSING DAY BANK BALANCE: ${total_amount}")
 
 
         elif ch == '4':
@@ -224,7 +209,7 @@ def employeePortal(bank):
             break
         else:
             print("Invalid choice")
-        input("Press enter to continue")
+        input("Press enter to continue\n\n")
             
 
     
@@ -233,8 +218,10 @@ def employeePortal(bank):
 
 if __name__ == "__main__":    
 #start of the program
+
     
-    bank = Bank("C:\\Users\\shrut\\OneDrive\\Desktop\\Banking\\employee_data.csv","C:\\Users\\shrut\\OneDrive\\Desktop\\Banking\\customer_data.csv" , "C:\\Users\\shrut\\OneDrive\\Desktop\\Banking\\account_data.csv" )
+    #bank = Bank("C:\\Users\\shrut\\OneDrive\\Desktop\\Banking\\employee_data.csv","C:\\Users\\shrut\\OneDrive\\Desktop\\Banking\\customer_data.csv" , "C:\\Users\\shrut\\OneDrive\\Desktop\\Banking\\account_data.csv" )
+    bank = Bank("customer_data.csv" , "account_data.csv" )
     bank.read_data()
     cusid = 0 
 
@@ -253,7 +240,7 @@ if __name__ == "__main__":
         print("\t3. EXIT")
         
         ch = input("\tSelect Your Option (1-3) : ")
-
+        print("\n")
 
 
         if ch == '1':
@@ -261,23 +248,28 @@ if __name__ == "__main__":
             print("\t1. ARE YOU AN EXISTING CUSTOMER? (Y/N) ")
             choice = input("Select Your Option : ")
             if (choice == 'Y' or choice == 'y'):
+            #if the customer is existing, enter the customer id to proceed
                 cusid = int(input("\t Enter your customer id: "))
                 found_customer = bank.find_customer(cusid)
+                #'find_customer' searches the customer. when found, object created 'found_customer' with all info
+
                 if found_customer == None:
                     print("\tINVALID CUSTOMER ID")
                     break
 
             elif (choice == 'N' or choice == 'n'):
-                
+            #if the customer is new, enter the name and address to proceed    
+
                 name = input("Enter the account holder name : ")
                 address = input ("Enter mailing address : ")
                 found_customer = bank.create_customer(name, address)
+                #'create_customer' creates the customer. Object created 'found_customer' with all info
             else:
                 print("\tINVALID CHOICE")
                 break
 
             customerPortal(bank,found_customer)
-
+            #in both conditions 'customerportal' is called with the bank(object of class Bank) and found_customer(obejct of a particular customer) as parameters
 
                        
         elif ch == '2':
@@ -285,11 +277,11 @@ if __name__ == "__main__":
             employeePortal(bank)
 
         elif ch=='3':
-            print("\tThank you for using the banking system. Have a nice day!")
+            print("\tThank you for using the banking system. Have a nice day!\n\n")
             break
 
         else:
             print("Invalid choice")
 
     bank.close_bank()
-
+    #to close and save the content in csv files

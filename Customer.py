@@ -21,10 +21,10 @@ class Customer(Person.Person):
             self.account[0]  = acc_obj.account_no
         else:
             self.account.append(acc_obj.account_no)
-        print(f"\n\nAccount Created for {self.name}\n** Details as follows **\nAccount number: {acc_obj.account_no}\nType of account: {acc_obj.acc_type} \nMailing address: {self.address}\n Initial Deposit: {acc_obj.total_amt}\n")
+        print(f"\n\nAccount Created for {self.name}\n** Details as follows **\nAccount number: {acc_obj.account_no}\nCustomer_id: {acc_obj.customer_id}\nType of account: {acc_obj.acc_type} \nMailing address: {self.address}\n Initial Deposit: {acc_obj.total_amt}\n")
 
     def get_account_id(self):
-        print("------------------------------------------------------------------------------------------")
+        
         if (len(self.account) == 0):
             print("\tYou don't have an active account")
             return None
@@ -44,7 +44,7 @@ class Customer(Person.Person):
         self.account.remove(acc_no)
         print("\n Account deleted! \n")
 
-    def modifyCustomerInfo():
+    def modifyCustomerInfo(self):
 
         while (ch != 3):
 
@@ -54,7 +54,7 @@ class Customer(Person.Person):
             print("3. EXIT")
 
             ch = int(input("Please choose one to procede"))
-
+            print("\n")
             if (ch == 1):
                 new_name = input("ENTER THE NEW NAME: ")
                 self.name = new_name
