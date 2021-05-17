@@ -12,7 +12,7 @@ class Customer(Person.Person):
         if isinstance(other,Customer):
             return self.customer_id == other.customer_id
         else:
-            return self.customer_id == other
+            return str(self.customer_id) == str(other)
         
         
     def create_account(self, acc_obj):

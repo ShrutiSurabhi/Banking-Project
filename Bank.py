@@ -9,10 +9,9 @@ from Accounts import Accounts
 
 class Bank:
     
-    employee_file = ''
     customer_file = ''
     account_file = ''
-    list_employees = []
+    
     list_customers = []
     list_accounts = []
     ACC_SIZE=10
@@ -25,6 +24,7 @@ class Bank:
      
     def read_data(self):
         
+        #customer_file contains customer's name, info and all the accounts (current and saving)
         if not os.path.exists(self.customer_file):
             with open(self.customer_file,'w') as file:
                 dw = csv.DictWriter(file, delimiter = ',',fieldnames= ["Name", "Address","Customer id","Account Number(s)"])
@@ -36,7 +36,8 @@ class Bank:
             self.list_customers.append(cus)
         
         #-----------------------------------------------------------
-                
+
+        #account_file contains every account's info and balance     
         if not os.path.exists(self.account_file):
             with open(self.account_file,'w') as file:
                 dw = csv.DictWriter(file, delimiter = ',',fieldnames= ["Customer id", "Account Number", "Type", "Total Amount"])
@@ -51,17 +52,22 @@ class Bank:
         
 
     def find_customer(self,customer_id):
+    #to find the customer in the list of customers with customer id
+
         if customer_id in self.list_customers:
             return self.list_customers[self.list_customers.index(customer_id)]
         return None
 
     def find_account(self,account_no):
+    #to find the account in the list of accounts with account number
+
         if account_no in self.list_accounts:
             return self.list_accounts[self.list_accounts.index(account_no)]
         return None
 
 
     def create_customer(self, name, address):
+    #to create a new customer and return an object of all the info of a customer
 
         cusid = self.get_unique(2)
         cid = Customer(len(self.list_customers), name, address, cusid, "")
@@ -70,6 +76,7 @@ class Bank:
         return cid 
 
     def create_account(self, acc_type, deposit, found_customers):
+    #to create a new account and return an object of all the info of an account
 
         acc_id = str(self.get_unique(1))
         acc_obj = Accounts(len(self.list_accounts), found_customers.customer_id, acc_id, acc_type, deposit)
@@ -78,6 +85,8 @@ class Bank:
         return acc_obj 
 
     def get_unique(self,option):
+    #to generate customer_id or account number at one place 
+
         if (option == 1):
             acc_no = random.randint(10**self.ACC_SIZE, (10**(self.ACC_SIZE+1))-1)
             while acc_no in self.list_accounts:
@@ -92,6 +101,7 @@ class Bank:
 
     def close_bank(self):
     #to close csv files and so saving all the content in dataframe to csv files
+
         df = pd.DataFrame([x.as_dict() for x in self.list_customers])
         df.to_csv(self.customer_file)
 
@@ -99,12 +109,11 @@ class Bank:
         df.to_csv(self.account_file)
 
 
-        
-        
-
+#----------------------------------------------------------------------------------------------------        
+#end of class Bank
 
 def customerPortal(bank,found_customer):
-
+#if the user chooses 1. Customer Portal in first intraction
     choice = ''
     num = 0
     currency = 0
@@ -125,11 +134,12 @@ def customerPortal(bank,found_customer):
             #interaction for creating an account        
             
             acc_type = input("Enter the type of account [Current/Saving] : ")
-            deposit = int(input("Enter the initial amount ($) []>=500 for Saving and >=1000 for current] : "))
+            deposit = int(input("Enter the initial amount ($) [>=500 for Saving and >=1000 for current] : "))
             acc_obj = bank.create_account(acc_type, deposit, found_customer)
             found_customer.create_account(acc_obj)
 
         elif choice =='2':
+            #interaction for depositing amount in an account
          
             acc_no = found_customer.get_account_id()
             found_account = bank.find_account(acc_no)
@@ -138,6 +148,7 @@ def customerPortal(bank,found_customer):
             print("Transaction successful!\n\n")
 
         elif choice == '3':
+            #interaction for withdrawing amount from an account
 
             acc_no = found_customer.get_account_id()
             found_account = bank.find_account(acc_no)
@@ -146,13 +157,14 @@ def customerPortal(bank,found_customer):
             print("Transaction successful!\n\n")
 
         elif choice == '4':
-        #displays specific account number's balance
+            #displays specific account number's balance
+
             acc_no = found_customer.get_account_id()
             found_account = bank.find_account(acc_no)
             found_account.displayBalance()
 
         elif choice == '5':
-        #deletes account    
+            #deletes an account    
             acc_no = found_customer.get_account_id()
             found_account = bank.find_account(acc_no)
             bank.list_accounts.remove(found_account)
@@ -160,7 +172,7 @@ def customerPortal(bank,found_customer):
             
 
         elif choice == '6':
-        #modifies customer's info
+            #modifies customer's info
             found_customer.modifyCustomerInfo()
 
         elif choice == '7':
@@ -187,17 +199,18 @@ def employeePortal(bank):
         print("\n")
 
         if ch == '1':
-        #
+        #calls show_customer_info() row wise in list_customers
             for row in bank.list_customers:
                 row.show_customer_info()
             
 
         elif ch =='2':
-
+        #calls show_account_info() row wise in list_accounts
             for row in bank.list_accounts:
                 row.show_account_info()
 
         elif ch == '3':
+        #displays the total amount in the bank at the time 
             total_amount = 0
             for row in bank.list_accounts:
                 total_amount = total_amount + row.total_amt
@@ -205,11 +218,11 @@ def employeePortal(bank):
 
 
         elif ch == '4':
-            print("\tThank you for using the banking system. Have a nice day!")
+            print("\tThank you for using the banking system. Have a nice day!\n")
             break
         else:
             print("Invalid choice")
-        input("Press enter to continue\n\n")
+        input("Press enter to continue\n")
             
 
     
@@ -220,7 +233,6 @@ if __name__ == "__main__":
 #start of the program
 
     
-    #bank = Bank("C:\\Users\\shrut\\OneDrive\\Desktop\\Banking\\employee_data.csv","C:\\Users\\shrut\\OneDrive\\Desktop\\Banking\\customer_data.csv" , "C:\\Users\\shrut\\OneDrive\\Desktop\\Banking\\account_data.csv" )
     bank = Bank("customer_data.csv" , "account_data.csv" )
     bank.read_data()
     cusid = 0 

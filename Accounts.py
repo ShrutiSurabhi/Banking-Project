@@ -10,7 +10,21 @@ class Accounts:
 
     def __init__(self, index, customer_id, account_no, acc_type, total_amt):
         
-        self.index = index  
+        self.index = index
+        self.customer_id = customer_id
+        self.account_no = account_no
+        self.acc_type = acc_type
+        self.total_amt = total_amt
+        
+    def __eq__(self, other):
+
+        if isinstance(other,Accounts):
+            return self.account_no == other.account_no
+        else:
+            return str(self.account_no) == str(other)
+
+    def depositAndWithdraw(self, currency, option):
+
         if option == 1:
             self.total_amt = self.total_amt + currency
 
@@ -22,7 +36,7 @@ class Accounts:
                 print("Insufficient balance :(")
 
     def displayBalance(self):
-        print(f"\tThe balance in account  {self.account_no} is : ${self.total_amt} \n")
+        print(f"\tThe balance in the account {self.account_no} is : ${self.total_amt} \n")
 
     def show_account_info(self):
         print(f"Account Number : {self.account_no}\n Type : {self.acc_type}\n Total Amount : ${self.total_amt}\n\n")
