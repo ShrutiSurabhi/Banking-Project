@@ -1,0 +1,1 @@
+/***** 18. Write a SQL query to find the highest number of foul cards given in one match. *****/ SELECT match_no, Booked FROM   (SELECT match_no, COUNT(*)Booked FROM player_booked   GROUP BY match_no) M WHERE  Booked= (SELECT MAX(mm) FROM (SELECT match_no, COUNT(*) mm          FROM player_booked           GROUP BY match_no) M1); 
