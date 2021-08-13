@@ -1,5 +1,3 @@
-
-  
 use springboardopt;
 SET @v1 = 1612521;
 SET @v2 = 1145072;
