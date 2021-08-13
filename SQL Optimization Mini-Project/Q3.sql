@@ -1,4 +1,13 @@
-DROP INDEX `PRIMARY` ON Student;
+use springboardopt;
+SET @v1 = 1612521;
+SET @v2 = 1145072;
+SET @v3 = 1828467;
+SET @v4 = 'MGT382';
+SET @v5 = 'Amber Hill';
+SET @v6 = 'MGT';
+SET @v7 = 'EE';			  
+SET @v8 = 'MAT';
+
 
 -- 3. List the names of students who have taken course v4 (crsCode).
 EXPLAIN ANALYZE
@@ -15,13 +24,28 @@ SELECT name FROM Student WHERE id IN (SELECT studId FROM Transcript WHERE crsCod
  
 */
 EXPLAIN ANALYZE
+WITH cte AS
+(SELECT studId FROM Transcript WHERE crsCode = @v4)
 SELECT name
-FROM Student INNER JOIN Transcript ON Student.id = Transcript.studId
-WHERE Transcript.crsCode = @v4;
+FROM Student, cte
+WHERE Student.id = cte.studId;
 /*
--> Inner hash join (student.id = transcript.studId)  (cost=411.29 rows=400) (actual time=0.139..0.280 rows=2 loops=1)
-     -> Table scan on Student  (cost=0.50 rows=400) (actual time=0.005..0.161 rows=400 loops=1)
-     -> Hash
-         -> Filter: (transcript.crsCode = <cache>((@v4)))  (cost=10.25 rows=10) (actual time=0.035..0.069 rows=2 loops=1)
-             -> Table scan on Transcript  (cost=10.25 rows=100) (actual time=0.018..0.055 rows=100 loops=1)
+-> Nested loop inner join  (cost=17.50 rows=10) (actual time=0.058..0.101 rows=2 loops=1)
+     -> Filter: ((transcript.crsCode = <cache>((@v4))) and (transcript.studId is not null))  (cost=10.25 rows=10) (actual time=0.042..0.082 rows=2 loops=1)
+         -> Table scan on Transcript  (cost=10.25 rows=100) (actual time=0.023..0.066 rows=100 loops=1)
+     -> Single-row index lookup on Student using PRIMARY (id=transcript.studId)  (cost=0.63 rows=1) (actual time=0.008..0.009 rows=1 loops=2)
+ 
+*/
+
+
+EXPLAIN ANALYZE
+SELECT name
+FROM Student, Transcript
+WHERE Student.id = Transcript.studId AND Transcript.crsCode = @v4 ;
+/*
+-> Nested loop inner join  (cost=21.25 rows=10) (actual time=0.059..0.087 rows=2 loops=1)
+     -> Filter: (transcript.crsCode = <cache>((@v4)))  (cost=10.25 rows=10) (actual time=0.048..0.073 rows=2 loops=1)
+         -> Index scan on Transcript using PRIMARY  (cost=10.25 rows=100) (actual time=0.036..0.058 rows=100 loops=1)
+     -> Single-row index lookup on Student using PRIMARY (id=transcript.studId)  (cost=1.01 rows=1) (actual time=0.006..0.006 rows=1 loops=2)
+ 
 */
