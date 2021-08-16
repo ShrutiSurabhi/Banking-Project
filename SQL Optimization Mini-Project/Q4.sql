@@ -38,8 +38,8 @@ WHERE Student.id = alias2.studId;
 */
 
 /*
-Multiple joins make the query slow
-Solution1: create indexes on tables. Note that we only create primary indexes on large tables i.e., Student and Professor.
+
+Solution: create indexes on tables. Note that we only create primary indexes on large tables i.e., Student and Professor.
 For small tables such as Teaching, Transcript, use Table scan is better'.
 Additional optimization: We reduce the query result on Professor table to one row (Professor.name = @v5) then use CTE as the join of teaching and thhe "one row".
 That help reduce the query result for join significantly.
