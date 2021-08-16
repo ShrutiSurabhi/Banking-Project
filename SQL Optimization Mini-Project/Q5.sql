@@ -55,8 +55,7 @@ SELECT * FROM Student
 WHERE Student.id IN (
 SELECT studId FROM Transcript, cte1, cte2
 WHERE Transcript.crsCode = cte1.crsCode AND
-	  Transcript.crsCode != cte2.crsCode )
-      ;
+	  Transcript.crsCode != cte2.crsCode );
 /*
 -> Inner hash join (student.id = `<subquery2>`.studId)  (actual time=1.333..1.859 rows=26 loops=1)
      -> Table scan on Student  (cost=6.95 rows=400) (actual time=0.013..0.463 rows=400 loops=1)
@@ -78,40 +77,6 @@ WHERE Transcript.crsCode = cte1.crsCode AND
  
 */
 
-/*Test with temp tables. The result is worse than the original*/
-CREATE TEMPORARY TABLE t1
-SELECT crsCode
-FROM Course WHERE deptId = @v6;
-
-CREATE TEMPORARY TABLE t2
-SELECT crsCode
-FROM Course WHERE deptId = @v7;
-
-EXPLAIN ANALYZE
-SELECT * FROM Student, Transcript
-WHERE Transcript.crsCode IN (SELECT crsCode from t1) AND 
-      studId NOT IN (SELECT crsCode from t2) AND
-      Student.id = Transcript.studId;
-      
-/*
--> Inner hash join (student.id = transcript.studId)  (actual time=2.250..2.758 rows=26 loops=1)
-     -> Table scan on Student  (cost=0.52 rows=400) (actual time=0.012..0.436 rows=400 loops=1)
-     -> Hash
-         -> Filter: (<in_optimizer>(transcript.studId,<exists>(select #3) is false) and (transcript.crsCode = `<subquery2>`.crsCode))  (actual time=0.195..2.164 rows=26 loops=1)
-             -> Inner hash join (<hash>(transcript.crsCode)=<hash>(`<subquery2>`.crsCode))  (actual time=0.087..0.217 rows=26 loops=1)
-                 -> Table scan on Transcript  (cost=1.28 rows=100) (actual time=0.005..0.095 rows=100 loops=1)
-                 -> Hash
-                     -> Table scan on <subquery2>  (actual time=0.001..0.002 rows=24 loops=1)
-                         -> Materialize with deduplication  (actual time=0.052..0.055 rows=24 loops=1)
-                             -> Filter: (t1.crsCode is not null)  (cost=2.85 rows=26) (actual time=0.022..0.034 rows=26 loops=1)
-                                 -> Table scan on t1  (cost=2.85 rows=26) (actual time=0.021..0.031 rows=26 loops=1)
-             -> Select #3 (subquery in condition; dependent)
-                 -> Limit: 1 row(s)  (actual time=0.072..0.072 rows=0 loops=26)
-                     -> Filter: <is_not_null_test>(t2.crsCode)  (actual time=0.072..0.072 rows=0 loops=26)
-                         -> Filter: ((<cache>(transcript.studId) = t2.crsCode) or (t2.crsCode is null))  (cost=0.86 rows=6) (actual time=0.072..0.072 rows=0 loops=26)
-                             -> Table scan on t2  (cost=0.86 rows=32) (actual time=0.002..0.027 rows=32 loops=26)
- 
-*/      
 
 /*
 Add the primary index in Student. 
