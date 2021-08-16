@@ -32,15 +32,7 @@ WHERE id = alias.studId;
                          -> Nested loop inner join  (actual time=0.163..0.324 rows=19 loops=1)
                              -> Filter: (transcript.crsCode is not null)  (cost=10.25 rows=100) (actual time=0.004..0.083 rows=100 loops=1)
                                  -> Table scan on Transcript  (cost=10.25 rows=100) (actual time=0.004..0.070 rows=100 loops=1)
-                             -> Single-row index lookup on <subquery3> using <auto_distinct_key> (crsCode=transcript.crsCode)  (actual time=0.000..0.001 rows=0 loops=100)
-                                 -> Materialize with deduplication  (actual time=0.002..0.002 rows=0 loops=100)
-                                     -> Filter: (course.crsCode is not null)  (cost=110.52 rows=100) (actual time=0.084..0.140 rows=19 loops=1)
-                                         -> Filter: (teaching.crsCode = course.crsCode)  (cost=110.52 rows=100) (actual time=0.084..0.138 rows=19 loops=1)
-                                             -> Inner hash join (<hash>(teaching.crsCode)=<hash>(course.crsCode))  (cost=110.52 rows=100) (actual time=0.083..0.134 rows=19 loops=1)
-                                                 -> Table scan on Teaching  (cost=0.13 rows=100) (actual time=0.003..0.042 rows=100 loops=1)
-                                                 -> Hash
-                                                     -> Filter: (course.deptId = <cache>((@v8)))  (cost=10.25 rows=10) (actual time=0.009..0.056 rows=19 loops=1)
-                                                         -> Table scan on Course  (cost=10.25 rows=100) (actual time=0.003..0.042 rows=100 loops=1)
+                             
                  -> Select #5 (subquery in condition; uncacheable)
                      -> Aggregate: count(0)  (actual time=0.190..0.190 rows=1 loops=19)
                          -> Nested loop inner join  (actual time=0.098..0.188 rows=19 loops=19)
@@ -59,10 +51,7 @@ WHERE id = alias.studId;
                                  -> Table scan on Teaching  (cost=10.25 rows=100) (actual time=0.001..0.049 rows=100 loops=19)
  
 */
-/*
-In this query, adding Primary index in Student does not help much.
-I'm searching for the reasons.
-*/
+
 ALTER TABLE Student ADD PRIMARY KEY (id);
 EXPLAIN ANALYZE
 SELECT name FROM Student,
@@ -84,23 +73,7 @@ WHERE id = alias.studId;
                          -> Nested loop inner join  (actual time=0.169..0.327 rows=19 loops=1)
                              -> Filter: (transcript.crsCode is not null)  (cost=10.25 rows=100) (actual time=0.017..0.093 rows=100 loops=1)
                                  -> Table scan on Transcript  (cost=10.25 rows=100) (actual time=0.016..0.080 rows=100 loops=1)
-                             -> Single-row index lookup on <subquery3> using <auto_distinct_key> (crsCode=transcript.crsCode)  (actual time=0.000..0.000 rows=0 loops=100)
-                                 -> Materialize with deduplication  (actual time=0.002..0.002 rows=0 loops=100)
-                                     -> Filter: (course.crsCode is not null)  (cost=110.52 rows=100) (actual time=0.082..0.135 rows=19 loops=1)
-                                         -> Filter: (teaching.crsCode = course.crsCode)  (cost=110.52 rows=100) (actual time=0.082..0.133 rows=19 loops=1)
-                                             -> Inner hash join (<hash>(teaching.crsCode)=<hash>(course.crsCode))  (cost=110.52 rows=100) (actual time=0.082..0.129 rows=19 loops=1)
-                                                 -> Table scan on Teaching  (cost=0.13 rows=100) (actual time=0.003..0.039 rows=100 loops=1)
-                                                 -> Hash
-                                                     -> Filter: (course.deptId = <cache>((@v8)))  (cost=10.25 rows=10) (actual time=0.009..0.055 rows=19 loops=1)
-                                                         -> Table scan on Course  (cost=10.25 rows=100) (actual time=0.004..0.042 rows=100 loops=1)
-                 -> Select #5 (subquery in condition; uncacheable)
-                     -> Aggregate: count(0)  (actual time=0.181..0.182 rows=1 loops=19)
-                         -> Nested loop inner join  (actual time=0.094..0.180 rows=19 loops=19)
-                             -> Filter: ((course.deptId = <cache>((@v8))) and (course.crsCode is not null))  (cost=10.25 rows=10) (actual time=0.004..0.070 rows=19 loops=19)
-                                 -> Table scan on Course  (cost=10.25 rows=100) (actual time=0.003..0.055 rows=100 loops=19)
-                             -> Single-row index lookup on <subquery6> using <auto_distinct_key> (crsCode=course.crsCode)  (actual time=0.000..0.001 rows=1 loops=361)
-                                 -> Materialize with deduplication  (actual time=0.005..0.005 rows=1 loops=361)
-                                     -> Table scan on Teaching  (cost=10.25 rows=100) (actual time=0.002..0.047 rows=100 loops=19)
+                            
              -> Select #5 (subquery in projection; uncacheable)
                  -> Aggregate: count(0)  (actual time=0.181..0.182 rows=1 loops=19)
                      -> Nested loop inner join  (actual time=0.094..0.180 rows=19 loops=19)
@@ -112,4 +85,3 @@ WHERE id = alias.studId;
      -> Single-row index lookup on Student using PRIMARY (id=alias.studId)  (cost=0.63 rows=1) (never executed)
  
 */
-© 2021 GitHub, Inc.
