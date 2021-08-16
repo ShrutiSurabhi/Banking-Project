@@ -44,33 +44,6 @@ For small tables such as Teaching, Transcript, use Table scan is better'.
 Additional optimization: We reduce the query result on Professor table to one row (Professor.name = @v5) then use CTE as the join of teaching and thhe "one row".
 That help reduce the query result for join significantly.
 */
-ALTER TABLE Student ADD PRIMARY KEY (id);
-ALTER TABLE Professor ADD PRIMARY KEY (id);
-
-
-EXPLAIN ANALYZE
-SELECT name FROM Student,
-	(SELECT studId FROM Transcript,
-		(SELECT crsCode, semester FROM Professor
-			JOIN Teaching
-			WHERE Professor.name = @v5 AND Professor.id = Teaching.profId) as alias1
-	WHERE Transcript.crsCode = alias1.crsCode AND Transcript.semester = alias1.semester) as alias2
-WHERE Student.id = alias2.studId;
-
-/*
--> Inner hash join (professor.id = teaching.profId)  (cost=1231.79 rows=4) (actual time=0.223..0.223 rows=0 loops=1)
-     -> Filter: (professor.`name` = <cache>((@v5)))  (cost=1.09 rows=4) (never executed)
-         -> Table scan on Professor  (cost=1.09 rows=400) (never executed)
-     -> Hash
-         -> Nested loop inner join  (cost=1083.20 rows=100) (actual time=0.208..0.208 rows=0 loops=1)
-             -> Filter: ((teaching.semester = transcript.semester) and (teaching.crsCode = transcript.crsCode))  (cost=1010.70 rows=100) (actual time=0.207..0.207 rows=0 loops=1)
-                 -> Inner hash join (<hash>(teaching.semester)=<hash>(transcript.semester)), (<hash>(teaching.crsCode)=<hash>(transcript.crsCode))  (cost=1010.70 rows=100) (actual time=0.206..0.206 rows=0 loops=1)
-                     -> Table scan on Teaching  (cost=0.01 rows=100) (actual time=0.006..0.046 rows=100 loops=1)
-                     -> Hash
-                         -> Table scan on Transcript  (cost=10.25 rows=100) (actual time=0.044..0.087 rows=100 loops=1)
-             -> Single-row index lookup on Student using PRIMARY (id=transcript.studId)  (cost=0.63 rows=1) (never executed)
- 
-*/
 
 
 EXPLAIN ANALYZE
