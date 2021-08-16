@@ -34,7 +34,7 @@ WHERE Student.id = cte.studId;
      -> Filter: ((transcript.crsCode = <cache>((@v4))) and (transcript.studId is not null))  (cost=10.25 rows=10) (actual time=0.042..0.082 rows=2 loops=1)
          -> Table scan on Transcript  (cost=10.25 rows=100) (actual time=0.023..0.066 rows=100 loops=1)
      -> Single-row index lookup on Student using PRIMARY (id=transcript.studId)  (cost=0.63 rows=1) (actual time=0.008..0.009 rows=1 loops=2)
- 
+ Solution: Single-row index lookup on Student using PRIMARY (id=transcript.studId) and Transcript.crsCode = @v4 
 */
 
 
