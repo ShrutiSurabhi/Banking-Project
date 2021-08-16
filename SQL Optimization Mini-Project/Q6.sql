@@ -51,6 +51,10 @@ WHERE id = alias.studId;
                                  -> Table scan on Teaching  (cost=10.25 rows=100) (actual time=0.001..0.049 rows=100 loops=19)
  
 */
+/*
+Solution: Add the primary index in Student. 
+Single-row index lookup on Student using PRIMARY (id=alias.studId)
+*/
 
 ALTER TABLE Student ADD PRIMARY KEY (id);
 EXPLAIN ANALYZE
