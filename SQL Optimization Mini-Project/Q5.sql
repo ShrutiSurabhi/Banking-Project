@@ -79,7 +79,7 @@ WHERE Transcript.crsCode = cte1.crsCode AND
 
 
 /*
-Add the primary index in Student. 
+Solution: Add the primary index in Student. 
 Retest the original. The actual time reduce nearly 50%
 */
 ALTER TABLE Student ADD PRIMARY KEY (id);
