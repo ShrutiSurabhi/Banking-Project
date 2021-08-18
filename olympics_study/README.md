@@ -16,10 +16,10 @@ Studying this dataset will help us understand the patterns followed in the games
 
  Scopes of solution space:
 
-•	To have a fair view of every player’s body measurement metrics.
-•	How the body metrics is dependent to the sportsperson’s performance?
-•	Are the country’s GDP and resources affects the sportsperson’s performance and how?
-•	To have detailed study of which all countries are leading in Olympics with every sport and why?
+•	To have a fair view of every player’s body measurement metrics. <br>
+•	How the body metrics is dependent to the sportsperson’s performance? <br>
+•	Are the country’s GDP and resources affects the sportsperson’s performance and how? <br>
+•	To have detailed study of which all countries are leading in Olympics with every sport and why? <br>
 
 Data source(s):
 
