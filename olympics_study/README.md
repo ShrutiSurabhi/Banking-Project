@@ -1,6 +1,6 @@
-                                                           #Open-ended Capstone Project Proposal 1#
+                                                     #Open-ended Capstone Project Proposal 1#
 
-                                                 How sports in Olympics Athlete events have evolved in 120 years
+                                          How sports in Olympics Athlete events have evolved in 120 years
 
 Problem statement formation:
 
@@ -23,8 +23,8 @@ Studying this dataset will help us understand the patterns followed in the games
 
 Data source(s):
 
-•	https://www.kaggle.com/heesoo37/120-years-of-olympic-history-athletes-and-results
-•	https://www.kaggle.com/chadalee/country-wise-gdp-data
-•	https://www.kaggle.com/chadalee/country-wise-population-data
-•	https://www.kaggle.com/berkayalan/2021-olympics-medals-in-tokyo
+•	https://www.kaggle.com/heesoo37/120-years-of-olympic-history-athletes-and-results <br>
+•	https://www.kaggle.com/chadalee/country-wise-gdp-data <br>
+•	https://www.kaggle.com/chadalee/country-wise-population-data <br>
+•	https://www.kaggle.com/berkayalan/2021-olympics-medals-in-tokyo <br>
 
