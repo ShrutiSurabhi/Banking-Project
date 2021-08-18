@@ -1,5 +1,6 @@
-#Open-ended Capstone Project Proposal 1#
-How sports in Olympics Athlete events have evolved in 120 years
+                                                              #Open-ended Capstone Project Proposal 1#
+
+                                                     How sports in Olympics Athlete events have evolved in 120 years
 
 Problem statement formation:
 
