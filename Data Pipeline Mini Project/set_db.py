@@ -7,7 +7,7 @@ try:
                                          host=env.get('MYSQL_HOST'),
                                          port=env.get('MYSQL_PORT'),
                                          database=env.get('MYSQL_DATABASE'))
-    print('The database initiated...')
+    #print('The database initiated...')
     cursor = connection.cursor()
     sql_cmd =""
     with open('sql/create_table.sql') as f:
