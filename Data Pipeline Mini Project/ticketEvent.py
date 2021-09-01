@@ -6,9 +6,9 @@ from numpy import record
 def get_db_connection():
     connection = None
     try:
-        connection = mysql.connector.connect(user='dtn',
+        connection = mysql.connector.connect(user='str',
                                              password='12345678',
-                                             host='192.168.0.2',
+                                             host='127.0.0.1',
                                              port='3306',
                                              database='ticket_event')
     except Exception as error:
@@ -57,6 +57,7 @@ def load_third_party(connection, file_path_csv):
 
 
 def query_best_selling_event(connection):
+    
     # Get the best selling event in the past month
     sql_statement = ("SELECT event_name, SUM(num_tickets) "
                      "FROM ticket_sale "
