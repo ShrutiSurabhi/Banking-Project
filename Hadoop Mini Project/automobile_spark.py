@@ -9,9 +9,7 @@ def load_data():
 
 
 def map_vin_pair():
-    """
-    Map raw daa to (vin, make, year) tuples.
-    """
+#Map raw daa to (vin, make, year) tuples
     raw_rdd = load_data()
     raw_rdd = raw_rdd.map(lambda x: x.split(','))
     vin_kv = raw_rdd.map(lambda x: (x[1], [x[0], x[2], x[4]]))
@@ -19,16 +17,14 @@ def map_vin_pair():
 
 
 def cache_rdd(vin_kv):
-    """
-    Cache read dataset for faster future readings.
-    """
+#Cache read dataset for faster future readings.
+   
     vin_kv.cache()
 
 
 def extract_group_master_info(vin_kv):
-    """
-    Extract make, year information from initial sale record per vin group.
-    """
+#Extract make, year information from initial sale record per vin group.
+    
     group_lvl_info = {}
     for kv in vin_kv.collect():
         if kv[1][0] == 'I':
@@ -37,10 +33,8 @@ def extract_group_master_info(vin_kv):
 
 
 def populate_make(group, group_lvl_info):
-    """
-    Propagate group info to records with missing make and year 
-    and create new tuples.
-    """
+#Propagate group info to records with missing make and year. 
+    and create new tuples
     new_group = []
     vin = group[0]
     make_year_pair = list(group[1])
