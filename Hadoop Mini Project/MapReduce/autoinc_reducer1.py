@@ -18,5 +18,5 @@ for line in sys.stdin:
 
 for vin, num_accdt in vehicle_accidents.items():
     make, year = group_level_master_info[vin][1], group_level_master_info[vin][2]
-    for _ in range(num_accdt):
+    for i in range(num_accdt):
         print(make, year, 1)
