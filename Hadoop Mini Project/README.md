@@ -10,18 +10,18 @@ The sample data is from an automobile tracking platform that tracks the history 
 
 Column:    Type
 
-incident_id	INT
+incident_id-	INT
 
-incident_type	STRING (I: initial sale, A: accident, R: repair)
+incident_type-	STRING (I: initial sale, A: accident, R: repair)
 
-vin_number	STRING
+vin_number-	STRING
 
-make	STRING (The brand of the car, only populated with incident type “I”)
+make-	STRING (The brand of the car, only populated with incident type “I”)
 
-model	STRING (The model of the car, only populated with incident type “I”)
+model-	STRING (The model of the car, only populated with incident type “I”)
 
-year	STRING (The year of the car, only populated with incident type “I”)
+year-	STRING (The year of the car, only populated with incident type “I”)
 
-incident_date	DATE (The year of the car, only populated with incident type “I”)
+incident_date-	DATE (The year of the car, only populated with incident type “I”)
 
-description	STRING
+description-	STRING
