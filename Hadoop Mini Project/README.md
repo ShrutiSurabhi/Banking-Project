@@ -1,12 +1,14 @@
 ****Post-Sale-Automobile-Report****
 
-Objective
+Objective:
+
 The goal of this mini project is to use a MapReduce program to produce a report of the total number of accidents per make and year of the car.
 
-Data
+Data:
+
 The sample data is from an automobile tracking platform that tracks the history of important incidents after the initial sale of a new vehicle. Such incidents include subsequent private sales, repairs, and accident reports. The platform provides a good reference for second-hand buyers to understand the vehicles they are interested in.
 
-Column	Type
+Column:    Type
 incident_id	INT
 incident_type	STRING (I: initial sale, A: accident, R: repair)
 vin_number	STRING
