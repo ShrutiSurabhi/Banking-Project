@@ -36,7 +36,7 @@ If Hadoop and Sandbox are not set up, simply use the bash pipeline command to si
 cat source_data/data.csv | python autoinc_mapper1.py | sort | python autoinc_reducer1.py | python autoinc_mapper2.py | sort | python autoinc_reducer2.py
 ```
 
-Your result should look similar to this:
+With the data reduced and mapped, the result will look like this for the incidents:
 <br>('A4 2017', 834)
 <br>('A7 2019', 881)
 <br>('Beetle 2014', 947)
