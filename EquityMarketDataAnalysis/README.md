@@ -1,5 +1,5 @@
 # EquityMarketDataAnalysis
-##Springboard Guided Capstone 
+# Springboard Guided Capstone 
 <br> Guided Capstone Step One: Design and Setup
 
 
