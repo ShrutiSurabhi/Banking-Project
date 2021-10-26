@@ -1,4 +1,4 @@
-#Overview
+# Overview <br>
 Today, data is being generated and stored in staggering amounts at unprecedented
 velocities. To make things more complicated, this data is generated in an ever-expanding
 variety of formats.
@@ -19,7 +19,7 @@ Jupyter Notebook to the cluster. You will then use the notebook to explore and a
 Walmart stock data. Your goal is to learn how to create and utilize your own Spark clusters,
 provision them with Azure, and get a working introduction to Spark data analytics. <br>
 
-#Learning Goals
+# Learning Goals <br>
 In this mini-project, you will learn how to: <br>
 ● Deploy an HDInsight Spark cluster <br>
 ● Work with content stored in Azure Blob Storage and accessed by the Spark cluster as an HDFS volume <br>
@@ -27,7 +27,7 @@ In this mini-project, you will learn how to: <br>
 ● Delete a Spark cluster to avoid incurring unnecessary charges <br>
 
 
-#Deliverables
+# Deliverables
 1. Jupyter Notebook with code to achieve stated objective in each cell <br>
 2. A PPT/Word-doc with screenshots of each step as performed according to this lab <br>
 
