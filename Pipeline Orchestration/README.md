@@ -18,3 +18,9 @@ The process has following steps: <br>
 # Prerequisites: <br>
 - Azure Elastic Cluster <br>
 - Knowledge of command line <br>
+- 
+# Summary
+In this step, we practised a basic end-to-end operation on the pipeline you built. Shell scripts
+are usually the most straightforward, reliable way to trigger a job. You implemented job status
+tracking, which gives you the ability to monitor the progress of the daily job run, in order to make
+sure that results are always delivered.
