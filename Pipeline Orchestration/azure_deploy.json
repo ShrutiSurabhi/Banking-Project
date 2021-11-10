@@ -1,34 +1,4 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@ShrutiSurabhi 
-Azure-Samples
-/
-azure-logic-apps-pipeline-orchestration
-Public
-13
-914
-Code
-Issues
-Pull requests
-1
-Actions
-Projects
-Wiki
-Security
-Insights
-azure-logic-apps-pipeline-orchestration/azuredeploy.json
-@scgbear
-scgbear initial draft, sans video complete
-Latest commit 7ed76ac on Nov 26, 2019
- History
- 1 contributor
-1026 lines (1026 sloc)  66.8 KB
-   
+
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
