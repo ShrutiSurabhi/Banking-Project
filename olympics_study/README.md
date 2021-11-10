@@ -1,4 +1,4 @@
-                                                     # Open-ended Capstone Project Proposal
+                                                     ##Open-ended Capstone Project Proposal
 
                                           How sports in Olympics Athlete events have evolved in 120 years
 
